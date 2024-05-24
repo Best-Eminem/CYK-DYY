@@ -8,9 +8,10 @@
 
 <swiper wx:if="{{allMissions.length > 0}}" indicator-dots="true" autoplay="true" interval="2000" duration="500" 
 style="height: 200px; width: 100%; background: white; ">
-      <swiper-item><image src="Images/MissionCover01.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/MissionCover02.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/MissionCover03.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="Images/1.png" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="Images/2.png" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="Images/3.png" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="Images/4.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
 </swiper>
 
 <view class="container" wx:if="{{allMissions.length > 0}}">
