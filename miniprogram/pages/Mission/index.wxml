@@ -8,10 +8,10 @@
 
 <swiper wx:if="{{allMissions.length > 0}}" indicator-dots="true" autoplay="true" interval="2000" duration="500" 
 style="height: 200px; width: 100%; background: white; ">
-      <swiper-item><image src="Images/1.png" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/2.png" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/3.png" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/4.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/1.jpg?sign=d12eec94bf38eeb777bcb3b44508dc25&t=1716734206" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/2.png?sign=b350f426ecaaa4775beec7b73c9a0fb5&t=1716733513" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/3.png?sign=5ff3ac05dce01ad63d420437561a2f12&t=1716733522" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/4.jpg?sign=b8317233c73aa8a4a1b3404275141fbd&t=1716733622" mode='widthFix' class="swiper-image" /></swiper-item>
 </swiper>
 
 <view class="container" wx:if="{{allMissions.length > 0}}">
