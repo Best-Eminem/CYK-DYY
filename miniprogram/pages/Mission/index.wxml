@@ -1,7 +1,7 @@
 <wxs module="util" src="../util.wxs" />
 
 <view class="container white" wx:if="{{allMissions.length === 0}}">
-  <image class="background" src="Images/None.png" mode="aspectFit" />
+  <image class="background" src="../../images/None.gif" mode="aspectFit" />
   <view class="title">暂无任务</view>
   <view class="subtitle">好像什么任务也没有...</view>
 </view>

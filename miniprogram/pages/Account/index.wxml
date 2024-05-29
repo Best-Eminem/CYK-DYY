@@ -1,7 +1,7 @@
 <wxs module="util" src="../util.wxs" />
 
 <view class="container white" wx:if="{{allItems.length === 0}}">
-  <image class="background" src="Images/None.png" mode="aspectFit" />
+  <image class="background" src="../../images/None.gif" mode="aspectFit" />
   <view class="title">这里空空如也...</view>
   <view class="subtitle">去申请任务攒积分买点吧~</view>
 </view>
