@@ -40,6 +40,7 @@ Page({
             userA: getApp().globalData.userA,
             userB: getApp().globalData.userB,
         })
+        this.getDays()
     },
 
     getCreditA(){
@@ -55,4 +56,11 @@ Page({
             this.setData({creditB: res.result.data[0].credit})
         })
     },
+
+    getDays(){
+      var beginDate = new Date(getApp().globalData.date); 
+      var endDate = new Date();
+      var dateDistance = endDate.getTime() - beginDate.getTime();
+      this.setData({days:Math.floor(dateDistance/(24*3600*1000)+1)})
+    }
 })

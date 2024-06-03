@@ -30,7 +30,7 @@
     </view>
     <view class="form-cell">
       <view class="slide">
-        <view class="title">今天想做什么呢？</view>
+        <view class="title">已经在一起<text class="nums">{{days}}</text>天啦</view>
       </view>
     </view>
   </view>
