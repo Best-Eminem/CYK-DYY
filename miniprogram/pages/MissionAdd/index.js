@@ -12,7 +12,7 @@ Page({
       //data是用来传给云函数event的数据，你可以把你当前页面获取消息填写到服务通知里面
       data: {
           action: 'sendSubscribeMessage',
-          templateId: 'R5sHALA7TKs6jCyH_kwNr9l8vVfWKCU5cXQnFKWlwfA',//这里我就直接把模板ID传给云函数了
+          templateId: 'D-6tEJ4Bu4Ra_wnRIhn07CwKss9p-BiGBLBshX8MqTI',//这里我就直接把模板ID传给云函数了
           me:'Test_me',
           name:'Test_activity',
           _openid:'odPPg4mBicTjUXPX29A3KIzu5kYc'//填入自己的openid

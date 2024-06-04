@@ -63,7 +63,7 @@ module.exports = {
 - 不成功的话可以在命令行输入 `npm install --save wx-server-sdk@latest`
 - 然后创建体验版小程序->通过开发者账号分享到女朋友手机上(要先登录小程序开发者账号)
 - 在两个手机上运行小程序->分别在两个手机上的小程序里新建任务
-- 然后回到云开发控制台的`missionlist`数据库集合->找自己和女朋友的`_openid`变量并记录
+- 然后回到云开发控制台的`missionlist`数据库集合->找自己(o0VYL7U0sUPomHW88vXGLAYeFHc4)和女朋友()的`_openid`变量并记录
 - 把这两个记录下来的`_openid`拷贝到云开发控制台`UserList`数据集合里刚刚没填的`_openid`变量中
 - 把这两个记录下来的`_openid`拷贝到`miniprogram/app.js`里的`_openidA`和`_openidB`的值里(A是卡比，B是瓦豆)
 - 在`miniprogram/app.js`里把`userA`和`userB`改成自己和女朋友的名字
