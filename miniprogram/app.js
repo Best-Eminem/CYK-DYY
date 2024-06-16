@@ -5,7 +5,7 @@ App({
     this.globalData = {
       //记录使用者的openid
       _openidA: 'o0VYL7U0sUPomHW88vXGLAYeFHc4',
-      _openidB: 'onsgK5Zc7t-bFdnFk3_krqdIRZYY',
+      _openidB: 'o0VYL7X4QKnDnMCR4K0qFMQHgY8Q',
 
       //记录使用者的名字
       userA: 'cyk',

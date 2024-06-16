@@ -13,9 +13,10 @@
 
 <swiper wx:if="{{allItems.length > 0}}" indicator-dots="true" autoplay="true" interval="2000" duration="500" 
 style="background: white; height: 200px; width: 100%;">
-  <swiper-item><image src="Images/MarketCover01.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-  <swiper-item><image src="Images/MarketCover02.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-  <swiper-item><image src="Images/MarketCover03.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/13.png?sign=b295b7c67b893a7fc9c421c83a55fb58&t=1717898480" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/10.png?sign=a3c9f525c5e97522779fef8c10942078&t=1717898508" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/11.png?sign=7620002dca6246b8e0b825c667f4bab0&t=1717898522" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/12.png?sign=0634004f50854a65132e5d0f71b78bcb&t=1717898534" mode='widthFix' class="swiper-image" /></swiper-item>
 </swiper>
 
 <view class="container" wx:if="{{allItems.length > 0}}">
@@ -36,8 +37,8 @@ style="background: white; height: 200px; width: 100%;">
             <view class="item-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
           </view>
           <view class="item-info_author">
-            <image style="position: absolute; width: 100%; bottom: 0;" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MarketA.png"/>
-            <image style="position: absolute; width: 100%; bottom: 0;" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MarketB.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MissionA.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MissionB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
@@ -57,8 +58,8 @@ style="background: white; height: 200px; width: 100%;">
             <view class="item-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
           </view>
           <view class="item-info_author">
-              <image style="position: absolute; width:100%; bottom: 0;" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MarketA.png"/>
-              <image style="position: absolute; width:100%; bottom: 0;" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MarketB.png"/>
+              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MarketA.png"/>
+              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MarketB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
