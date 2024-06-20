@@ -13,10 +13,10 @@
 
 <swiper wx:if="{{allItems.length > 0}}" indicator-dots="true" autoplay="true" interval="2000" duration="500" 
 style="background: white; height: 200px; width: 100%;">
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/13.png?sign=b295b7c67b893a7fc9c421c83a55fb58&t=1717898480" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/10.png?sign=a3c9f525c5e97522779fef8c10942078&t=1717898508" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/11.png?sign=7620002dca6246b8e0b825c667f4bab0&t=1717898522" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/12.png?sign=0634004f50854a65132e5d0f71b78bcb&t=1717898534" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/OUbUHTTKOFVVc9z2TnNOYbgnUqTpPwJu/13.png" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/sTjMIdIwiKERy3EmjyGIC0zylHU0l1fK/10.png" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/t5oHMAkVDsWXdi2Y8H4GVKdkoJinjxBK/11.png" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/CEOlUGx9lcMVhndWn4UJ2kL9uLrzK1uY/12.png" mode='widthFix' class="swiper-image" /></swiper-item>
 </swiper>
 
 <view class="container" wx:if="{{allItems.length > 0}}">

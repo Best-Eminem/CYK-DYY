@@ -1,11 +1,19 @@
+const AV = require("../../libs/av-core-min.js");
 Page({
     //增加消息接收与发送功能
     async handleTap() {
         await this.saveMission();
-        await this.sendSubscribeMessage();
+        if (this.commitSuccess){
+          await this.sendSubscribeMessage();
+        }
   },
   //发送消息
   sendSubscribeMessage(e) {
+      let openid_a = 'o0VYL7U0sUPomHW88vXGLAYeFHc4';
+      let openid_b = 'o0VYL7X4QKnDnMCR4K0qFMQHgY8Q';
+      let taskName = '叮咚～任务更新提醒'
+      let creditReward = ''
+      let taskDetail = ''
       //调用云函数，
       wx.cloud.callFunction({
       name: 'information',
@@ -91,7 +99,7 @@ Page({
     }],
     list: getApp().globalData.collectionMissionList,
   },
-
+  commitSuccess:false,
   //数据输入填写表单
   onTitleInput(e) {
     this.setData({
@@ -151,17 +159,41 @@ Page({
       })
       return
     }else{
-        await wx.cloud.callFunction({name: 'addElement', data: this.data}).then(
-            () => {
-                wx.showToast({
-                    title: '添加成功',
-                    icon: 'success',
-                    duration: 1000
-                })
-            }
-        )
+        // 声明 class
+        const Mission = AV.Object.extend("MissionList");
+        // 构建对象
+        const mission = new Mission();
+        // 为属性赋值
+        mission.set("openid",getApp().globalData.currentId);
+        mission.set("date", new Date());
+        mission.set("credit",this.data.credit);
+        mission.set("title", this.data.title);
+        mission.set("desc",this.data.desc);
+        mission.set("available", true);
+        mission.set("star",false);
+        // 将对象保存到云端
+        mission.save().then(
+          (mission) => {
+            // 成功保存之后，执行其他逻辑
+            console.log(`保存成功。objectId：${mission.id}`);
+            this.commitSuccess = true
+          },
+          (error) => {
+            // 异常处理
+            console.log(error);
+          }
+        );
+        // await wx.cloud.callFunction({name: 'addElement', data: this.data}).then(
+        //     () => {
+        //         wx.showToast({
+        //             title: '添加成功',
+        //             icon: 'success',
+        //             duration: 1000
+        //         })
+        //     }
+        // )
         setTimeout(function () {
-            wx.navigateBack()
+          wx.navigateBack()
         }, 1000)
     }
   },

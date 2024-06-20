@@ -1,10 +1,14 @@
 <view style="width:100%; background: none;">
 
   <swiper indicator-dots="true" autoplay="true" interval="2000" duration="500" style="background: white; height: 200px; width: 100%;">
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/5.png?sign=cbba5126608c68d0c6c9c96b05514250&t=1716734083" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/6.png?sign=d45ae0b20dcc367b08f4b14a6f9bf414&t=1716733361" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/7.png?sign=2867fd6ba35ce93cb5e05eecd6bd3202&t=1716733372" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/8.png?sign=5dd77663f7c0e8e56566c741424027b0&t=1716733382" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/dHhFw1zst92BDcUo84fT1CvmagVNEGOu/5.png" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/gMMrq855sOH4gNVLJS2HimayuIeAGgtF/6.png" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/iR5fTsntYb57oa0QRQPOzMWeygNM3DAg/7.png" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/FXWppJJY4ycmTTibqbOH24EV3a3AW3XN/8.png" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
   </swiper>
 
 <view class="form-group_label">💰 积分榜</view>

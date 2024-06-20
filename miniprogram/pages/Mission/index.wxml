@@ -8,10 +8,14 @@
 
 <swiper wx:if="{{allMissions.length > 0}}" indicator-dots="true" autoplay="true" interval="2000" duration="500" 
 style="height: 200px; width: 100%; background: white; ">
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/1.jpg?sign=d12eec94bf38eeb777bcb3b44508dc25&t=1716734206" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/2.png?sign=b350f426ecaaa4775beec7b73c9a0fb5&t=1716733513" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/3.png?sign=5ff3ac05dce01ad63d420437561a2f12&t=1716733522" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="https://636c-cloud1-9g8l5sqy0bd5f944-1326775947.tcb.qcloud.la/4.jpg?sign=b8317233c73aa8a4a1b3404275141fbd&t=1716733622" mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/RXj9rETyboqKMn34iYjqHSgwU5mAJRvx/1.jpg" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/pA3GY3k1QIfjaqJQpRmLYyujL5vC0nCh/2.png" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/m2mCOgu0Nbly5gYbtgX5Ittlm4hm12HF/3.png" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
+      <swiper-item><image src="http://lc-9nwdMQHC.cn-n1.lcfile.com/1FQ23WKmjWOzDgrPDp6mPAisgoWeW53H/4.jpg" 
+      mode='widthFix' class="swiper-image" /></swiper-item>
 </swiper>
 
 <view class="container" wx:if="{{allMissions.length > 0}}">
@@ -29,12 +33,12 @@ style="height: 200px; width: 100%; background: white; ">
           <view class="mission-info">
             <view class="mission-info_title">{{util.filterStr(item.title, 10)}}</view>
             <view class="mission-info_award">💰 {{util.filterStr(item.credit, 10)}} 积分</view>
-            <view class="mission-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
+            <view class="mission-info_date">📅 创建于{{item.date}} </view>
           </view>
           <view class="mission-info_author">
-            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidA}}" 
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidA}}" 
             mode="widthFix" src="Images/MissionA.png"/>
-            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MissionB.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidB}}" mode="widthFix" src="Images/MissionB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
@@ -51,11 +55,11 @@ style="height: 200px; width: 100%; background: white; ">
           <view class="mission-info">
             <view class="mission-info_title">{{util.filterStr(item.title, 10)}}</view>
             <view class="mission-info_award">💰 {{util.filterStr(item.credit, 10)}} 积分</view>
-            <view class="mission-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
+            <view class="mission-info_date">📅 创建于{{item.date}}</view>
           </view>
           <view class="mission-info_author">
-              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MissionA.png"/>
-              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MissionB.png"/>
+              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidA}}" mode="widthFix" src="Images/MissionA.png"/>
+              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidB}}" mode="widthFix" src="Images/MissionB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
