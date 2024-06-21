@@ -1,3 +1,4 @@
+const AV = require("../../libs/av-core-min.js");
 Page({
   // 保存任务的 _id 和详细信息
   data: {
@@ -32,13 +33,16 @@ Page({
   async onShow() {
     if (this.data._id.length > 0) {
       // 根据 _id 拿到任务
-      await wx.cloud.callFunction({name: 'getElementById', data: this.data}).then(data => {
+      const query = new AV.Query("MissionList");
+      query.equalTo("id", this.data._id);
+      query.find().then((data) => {
         // 将任务保存到本地，更新显示
+        let dataAtr = data[0].attributes
         this.setData({
-          mission: data.result.data[0],
-          dateStr: this.getDate(data.result.data[0].date).toDateString(),
-          timeStr: this.getDate(data.result.data[0].date).toTimeString(),
-          creditPercent: (data.result.data[0].credit / getApp().globalData.maxCredit) * 100,
+          mission: dataAtr,
+          dateStr: this.getDate(dataAtr.date).toDateString(),
+          timeStr: this.getDate(dataAtr.date).toTimeString(),
+          creditPercent: (dataAtr.credit / getApp().globalData.maxCredit) * 100,
         })
 
         //确定任务关系并保存到本地
@@ -53,7 +57,7 @@ Page({
             to: getApp().globalData.userA,
           })
         }
-      })
+      });
     }
   },
 })

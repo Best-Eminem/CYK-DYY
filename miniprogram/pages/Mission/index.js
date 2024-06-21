@@ -22,11 +22,6 @@ Page({
   },
   //页面加载时运行
   async onShow(){
-    // await wx.cloud.callFunction({name: 'getList', data: {list: getApp().globalData.collectionMissionList}}).then(data => {
-    //   this.setData({allMissions: data.result.data})
-    //   this.filterMission()
-    //   this.getScreenSize()
-    // });
     const query = new AV.Query("MissionList");
     query.find().then((missionList) => {
       this.setData({allMissions: missionList})
@@ -82,8 +77,13 @@ Page({
       for(let i in this.data.allMissions){
         if(this.data.allMissions[i].title.match(this.data.search) != null){
           //如果搜索的任务存在，则加入missionList
-          missionList.push(this.data.allMissions[i]) 
+          missionList.push(this.data.allMissions[i].attributes);
         }
+      }
+      for(let i in missionList){
+        let tt = missionList[i].date.toISOString().substring(0,10)
+        missionList[i].date = tt
+        missionList[i]._id = this.data.allMissions[i].id
       }
     }else{
       for(let i in this.data.allMissions){
@@ -136,17 +136,13 @@ Page({
     }else if(mission.openid === openid){
         //处理星标按钮点击事件
         if (index === 1) {
-            // wx.cloud.callFunction({name: 'editStar', data: {_id: mission._id, list: getApp().globalData.collectionMissionList, value: !mission.star}})
-            const todo = AV.Object.createWithoutData(getApp().globalData.collectionMissionList, mission._id);
-            todo.set("star", !mission.star);
-            todo.save();
+            this.editCloudData(getApp().globalData.collectionMissionList, mission._id, "star", !mission.star);
             //更新本地数据
             mission.star = !mission.star
         }
-        
         //处理删除按钮点击事件
         else if (index === 2) {
-            wx.cloud.callFunction({name: 'deleteElement', data: {_id: mission._id, list: getApp().globalData.collectionMissionList}})
+            this.deleteCloudData(getApp().globalData.collectionMissionList, mission._id);
             //更新本地数据
             if(isUpper) this.data.unfinishedMissions.splice(missionIndex, 1) 
             else this.data.finishedMissions.splice(missionIndex, 1) 
@@ -159,7 +155,6 @@ Page({
                 })
             }
         }
-
         //触发显示更新
         this.setData({finishedMissions: this.data.finishedMissions, unfinishedMissions: this.data.unfinishedMissions})
 
@@ -178,31 +173,44 @@ Page({
     //根据序号获得触发切换事件的待办
     const missionIndex = element.currentTarget.dataset.index
     const mission = this.data.unfinishedMissions[missionIndex]
+    const openid = getApp().globalData.currentId;
+    if(mission.openid != openid){
+      //完成对方任务，奖金打入对方账号
+      this.editCloudData(getApp().globalData.collectionMissionList, mission._id, "available", false);
+      this.incrementCloudData(getApp().globalData.collectionUserList, mission.openid, "credit", mission.credit);
 
-    await wx.cloud.callFunction({name: 'getOpenId'}).then(async openid => {
-      if(mission.openid != openid.result){
-        //完成对方任务，奖金打入对方账号
-        await wx.cloud.callFunction({name: 'editAvailable', data: {_id: mission._id, value: false, list: getApp().globalData.collectionMissionList}})
-        await wx.cloud.callFunction({name: 'editCredit', data: {_openid: mission.openid, value: mission.credit, list: getApp().globalData.collectionUserList}})
+      //触发显示更新
+      mission.available = false
+      this.filterMission()
 
-        //触发显示更新
-        mission.available = false
-        this.filterMission()
-
-        //显示提示
-        wx.showToast({
-            title: '任务完成',
-            icon: 'success',
-            duration: 2000
-        })
-
-      }else{
-        wx.showToast({
-          title: '不能完成自己的任务',
-          icon: 'error',
+      //显示提示
+      wx.showToast({
+          title: '任务完成',
+          icon: 'success',
           duration: 2000
-        })
-      }
-    })
+      })
+
+    }else{
+      wx.showToast({
+        title: '不能完成自己的任务',
+        icon: 'error',
+        duration: 2000
+      })
+    }
   },
+
+  editCloudData(tableName, _id, attr, value){
+    const todo = AV.Object.createWithoutData(tableName, _id);
+    todo.set(attr, value);
+    todo.save();
+  },
+  incrementCloudData(tableName, _id, attr, value){
+    const todo = AV.Object.createWithoutData(tableName, _id);
+    todo.increment(attr, value);
+    todo.save();
+  },
+  deleteCloudData(tableName, _id){
+    const todo = AV.Object.createWithoutData(tableName, _id);
+    todo.destroy();
+  }
 })
