@@ -1,3 +1,4 @@
+const AV = require("../../libs/av-core-min.js");
 Page({
   data: {
     screenWidth: 1000,
@@ -25,37 +26,36 @@ Page({
   async onShow(){
     this.getCurrentCredit()
     this.getUser()
-    await wx.cloud.callFunction({name: 'getList', data: {list: getApp().globalData.collectionMarketList}}).then(data => {
-      this.setData({allItems: data.result.data})
+    const query = new AV.Query(getApp().globalData.collectionMarketList);
+    query.find().then((itemList) => {
+      this.setData({allItems: itemList})
       this.filterItem()
       this.getScreenSize()
-    })
+    });
   },
 
   async getUser(){
-    await wx.cloud.callFunction({name: 'getOpenId'}).then(res => {
-        if(res.result === getApp().globalData._openidA){
-            this.setData({
-                user: getApp().globalData.userA,
-            })
-        }else if(res.result === getApp().globalData._openidB){
-            this.setData({
-                user: getApp().globalData.userB,
-            })
-        }
-    })
+    const openid = getApp().globalData.currentId;
+    if(openid === getApp().globalData._openidA){
+      this.setData({
+          user: getApp().globalData.userA,
+      })
+    }else if(openid === getApp().globalData._openidB){
+      this.setData({
+          user: getApp().globalData.userB,
+      })
+    }
   },
 
   //获取当前账号积分数额
   async getCurrentCredit(){
-    await wx.cloud.callFunction({name: 'getOpenId'})
-    .then(async openid => {
-      await wx.cloud.callFunction({name: 'getElementByOpenId', data: {list: getApp().globalData.collectionUserList, _openid: openid.result}})
-      .then(async res => {
-        this.setData({
-          credit: res.result.data[0].credit
-        }) 
-      })
+    const openid = getApp().globalData.currentId;
+    const query = new AV.Query(getApp().globalData.collectionUserList);
+    query.equalTo("openid", openid);
+    query.find().then((data) => {
+      this.setData({
+        credit: data[0].attributes.credit
+      }) 
     })
   },
 
@@ -104,12 +104,24 @@ Page({
     let itemList = []
     if(this.data.search != ""){
       for(let i in this.data.allItems){
-        if(this.data.allItems[i].title.match(this.data.search) != null){
-          itemList.push(this.data.allItems[i])
+        if(this.data.allItems[i].get("title").match(this.data.search) != null){
+          itemList.push(this.data.allItems[i].attributes)
         }
       }
+      for(let i in itemList){
+        let tt = itemList[i].date.toISOString().substring(0,10)
+        itemList[i].date = tt
+        itemList[i]._id = this.data.allItems[i].id
+      }
     }else{
-      itemList = this.data.allItems
+      for(let i in this.data.allItems){
+        itemList.push(this.data.allItems[i].attributes)
+      }
+      for(let i in itemList){
+        let tt = itemList[i].date.toISOString().substring(0,10)
+        itemList[i].date = tt
+        itemList[i]._id = this.data.allItems[i].id
+      }
     }
 
     this.setData({
@@ -137,55 +149,52 @@ Page({
     const itemIndex = element.currentTarget.dataset.index
     const item = isUpper === true ? this.data.unboughtItems[itemIndex] : this.data.boughtItems[itemIndex]
 
-    await wx.cloud.callFunction({name: 'getOpenId'}).then(async openid => {
-        //处理完成点击事件
-        if (index === 0) {
-            if(isUpper) {
-                this.buyItem(element)
-            }else{
-                wx.showToast({
-                    title: '物品已被购买',
-                    icon: 'error',
-                    duration: 2000
+    const openid = getApp().globalData.currentId;
+    //处理完成点击事件
+    if (index === 0) {
+        if(isUpper) {
+            this.buyItem(element)
+        }else{
+            wx.showToast({
+                title: '物品已被购买',
+                icon: 'error',
+                duration: 2000
+            })
+        }
+        
+    }else if(item._openid === openid.result){
+        //处理星标按钮点击事件
+        if (index === 1) {
+            this.editCloudData(getApp().globalData.collectionMarketList, item._id, "star", !item.star);
+            //更新本地数据
+            item.star = !item.star
+        }
+        //处理删除按钮点击事件
+        else if (index === 2) {
+            this.deleteCloudData(getApp().globalData.collectionMarketList, item._id);
+            //更新本地数据
+            if(isUpper) this.data.unboughtItems.splice(itemIndex, 1) 
+            else  this.data.boughtItems.splice(itemIndex, 1) 
+            //如果删除完所有事项，刷新数据，让页面显示无事项图片
+            if (this.data.unboughtItems.length === 0 && this.data.boughtItems.length === 0) {
+                this.setData({
+                allItems: [],
+                unboughtItems: [],
+                boughtItems: []
                 })
             }
-            
-        }else if(item._openid === openid.result){
-            //处理星标按钮点击事件
-            if (index === 1) {
-                wx.cloud.callFunction({name: 'editStar', data: {_id: item._id, list: getApp().globalData.collectionMarketList, value: !item.star}})
-                //更新本地数据
-                item.star = !item.star
-            }
-            
-            //处理删除按钮点击事件
-            else if (index === 2) {
-                wx.cloud.callFunction({name: 'deleteElement', data: {_id: item._id, list: getApp().globalData.collectionMarketList}})
-                //更新本地数据
-                if(isUpper) this.data.unboughtItems.splice(itemIndex, 1) 
-                else  this.data.boughtItems.splice(itemIndex, 1) 
-                //如果删除完所有事项，刷新数据，让页面显示无事项图片
-                if (this.data.unboughtItems.length === 0 && this.data.boughtItems.length === 0) {
-                    this.setData({
-                    allItems: [],
-                    unboughtItems: [],
-                    boughtItems: []
-                    })
-                }
-            }
+        }
+        //触发显示更新
+        this.setData({boughtItems: this.data.boughtItems, unboughtItems: this.data.unboughtItems})
 
-            //触发显示更新
-            this.setData({boughtItems: this.data.boughtItems, unboughtItems: this.data.unboughtItems})
-
-        //如果编辑的不是自己的商品，显示提醒
-        }else{
+    //如果编辑的不是自己的商品，显示提醒
+    }else{
             wx.showToast({
             title: '只能编辑自己的商品',
             icon: 'error',
             duration: 2000
             })
         }
-    })
   },
 
   //购买商品
@@ -193,48 +202,83 @@ Page({
     //根据序号获得商品
     const itemIndex = element.currentTarget.dataset.index
     const item = this.data.unboughtItems[itemIndex]
-
-    await wx.cloud.callFunction({name: 'getOpenId'}).then(async openid => {
-      //如果购买自己的物品，显示提醒
-      if(item._openid === openid.result){
-        wx.showToast({
-          title: '不能购买自己的物品',
-          icon: 'error',
+    const openid = getApp().globalData.currentId;
+    //如果购买自己的物品，显示提醒
+    if(item._openid === openid){
+      wx.showToast({
+        title: '不能购买自己上架的物品',
+        icon: 'error',
+        duration: 2000
+      })
+    //如果没有积分，显示提醒
+    }else if(this.data.credit < item.credit){
+      wx.showToast({
+        title: '积分不足...',
+        icon: 'error',
+        duration: 2000
+      })
+    }else{
+      //购买对方物品，奖金从自己账号扣除，并添加物品到自己的库里
+      // wx.cloud.callFunction({name: 'editCredit', data: {_openid: openid.result, value: -item.credit, list: getApp().globalData.collectionUserList}})
+      wx.cloud.callFunction({name: 'addElement', data: {
+          list: getApp().globalData.collectionStorageList,
+          credit: item.credit,
+          title: item.title,
+          desc: item.desc,
+      }})
+      this.editCloudData(getApp().globalData.collectionMarketList, item._id, "available", false);
+      this.incrementCloudData(getApp().globalData.collectionUserList, openid, "credit", -item.credit);
+      // 声明 class
+      const Storage = AV.Object.extend(getApp().globalData.collectionStorageList);
+      // 构建对象
+      const storage = new Storage();
+      // 为属性赋值
+      storage.set("openid",openid);
+      storage.set("date", new Date());
+      storage.set("credit",item.credit);
+      storage.set("title", item.title);
+      storage.set("desc",item.desc);
+      storage.set("available", true);
+      storage.set("star",false);
+      // 将对象保存到云端
+      storage.save().then(
+        (storage) => {
+          // 成功保存之后，执行其他逻辑
+          console.log(`保存成功。objectId：${storage.id}`);
+        },
+        (error) => {
+          // 异常处理
+          console.log(error);
+        }
+      );
+      //显示提示
+      wx.showToast({
+          title: '购买成功',
+          icon: 'success',
           duration: 2000
-        })
-      //如果没有积分，显示提醒
-      }else if(this.data.credit < item.credit){
-        wx.showToast({
-          title: '积分不足...',
-          icon: 'error',
-          duration: 2000
-        })
-      }else{
-        //购买对方物品，奖金从自己账号扣除，并添加物品到自己的库里
-        wx.cloud.callFunction({name: 'editAvailable', data: {_id: item._id, value: false, list: getApp().globalData.collectionMarketList}})
-        wx.cloud.callFunction({name: 'editCredit', data: {_openid: openid.result, value: -item.credit, list: getApp().globalData.collectionUserList}})
-        wx.cloud.callFunction({name: 'addElement', data: {
-            list: getApp().globalData.collectionStorageList,
-            credit: item.credit,
-            title: item.title,
-            desc: item.desc,
-        }})
-        
-        //显示提示
-        wx.showToast({
-            title: '购买成功',
-            icon: 'success',
-            duration: 2000
-        })
+      })
 
-        //触发显示更新
-        this.setData({
-          credit: this.data.credit - item.credit
-        })
+      //触发显示更新
+      this.setData({
+        credit: this.data.credit - item.credit
+      })
 
-        item.available = false
-        this.filterItem()
-      }
-    })
+      item.available = false
+      this.filterItem()
+    }
+  },
+  editCloudData(tableName, _id, attr, value){
+    const todo = AV.Object.createWithoutData(tableName, _id);
+    todo.set(attr, value);
+    todo.save();
+  },
+  incrementCloudData(tableName, _id, attr, value){
+    const todo = AV.Object.createWithoutData(tableName, _id);
+    todo.increment(attr, value);
+    todo.save();
+  },
+  deleteCloudData(tableName, _id){
+    const todo = AV.Object.createWithoutData(tableName, _id);
+    todo.destroy();
   },
 })

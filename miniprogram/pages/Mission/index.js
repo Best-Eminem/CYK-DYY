@@ -75,7 +75,7 @@ Page({
     let missionList = []
     if(this.data.search != ""){
       for(let i in this.data.allMissions){
-        if(this.data.allMissions[i].title.match(this.data.search) != null){
+        if(this.data.allMissions[i].get("title").match(this.data.search) != null){
           //如果搜索的任务存在，则加入missionList
           missionList.push(this.data.allMissions[i].attributes);
         }
@@ -120,6 +120,7 @@ Page({
     //根据序号获得任务
     const missionIndex = element.currentTarget.dataset.index
     const mission = isUpper === true ? this.data.unfinishedMissions[missionIndex] : this.data.finishedMissions[missionIndex]
+    
     const openid = getApp().globalData.currentId;
     //处理完成点击事件
     if (index === 0) {
@@ -157,7 +158,6 @@ Page({
         }
         //触发显示更新
         this.setData({finishedMissions: this.data.finishedMissions, unfinishedMissions: this.data.unfinishedMissions})
-
     //如果编辑的不是自己的任务，显示提醒
     }else{
         wx.showToast({
@@ -192,7 +192,7 @@ Page({
 
     }else{
       wx.showToast({
-        title: '不能完成自己的任务',
+        title: '不能完成自己发布的任务',
         icon: 'error',
         duration: 2000
       })
@@ -212,5 +212,5 @@ Page({
   deleteCloudData(tableName, _id){
     const todo = AV.Object.createWithoutData(tableName, _id);
     todo.destroy();
-  }
+  },
 })

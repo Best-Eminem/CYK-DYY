@@ -33,7 +33,7 @@ Page({
   async onShow() {
     if (this.data._id.length > 0) {
       // 根据 _id 拿到任务
-      const query = new AV.Query("MissionList");
+      const query = new AV.Query(this.data.list);
       query.equalTo("id", this.data._id);
       query.find().then((data) => {
         // 将任务保存到本地，更新显示
