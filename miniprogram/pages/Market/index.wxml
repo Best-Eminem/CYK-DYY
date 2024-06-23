@@ -38,9 +38,9 @@ style="background: white; height: 200px; width: 100%;">
           </view>
           <view class="item-info_author">
             <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidA}}" 
-            mode="widthFix" src="../../Images/MissionA.png"/>
+            mode="widthFix" src="../../images/MissionA.png"/>
             <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidB}}" 
-            mode="widthFix" src="../../Images/MissionB.png"/>
+            mode="widthFix" src="../../images/MissionA.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
@@ -61,9 +61,9 @@ style="background: white; height: 200px; width: 100%;">
           </view>
           <view class="item-info_author">
             <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidA}}" 
-            mode="widthFix" src="../../Images/MissionA.png"/>
+            mode="widthFix" src="../../images/MissionA.png"/>
             <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidB}}" 
-            mode="widthFix" src="../../Images/MissionB.png"/>
+            mode="widthFix" src="../../images/MissionB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
