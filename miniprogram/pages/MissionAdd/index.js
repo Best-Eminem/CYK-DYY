@@ -3,51 +3,86 @@ Page({
     //增加消息接收与发送功能
     async handleTap() {
         await this.saveMission();
-        if (this.commitSuccess){
-          await this.sendSubscribeMessage();
-        }
   },
   //发送消息
   sendSubscribeMessage(e) {
-      let openid_a = 'o0VYL7U0sUPomHW88vXGLAYeFHc4';
-      let openid_b = 'o0VYL7X4QKnDnMCR4K0qFMQHgY8Q';
+      this.information();
+  },
+  information(){
+    try {
+      let openid_a = getApp().globalData._openidA;
+      let openid_b = getApp().globalData._openidB;
       let taskName = '叮咚～任务更新提醒'
       let creditReward = ''
       let taskDetail = ''
-      //调用云函数，
-      wx.cloud.callFunction({
-      name: 'information',
-      //data是用来传给云函数event的数据，你可以把你当前页面获取消息填写到服务通知里面
-      data: {
-          action: 'sendSubscribeMessage',
-          templateId: 'D-6tEJ4Bu4Ra_wnRIhn07CwKss9p-BiGBLBshX8MqTI',//这里我就直接把模板ID传给云函数了
-          me:'Test_me',
-          name:'Test_activity',
-          _openid:'odPPg4mBicTjUXPX29A3KIzu5kYc'//填入自己的openid
-      },
-      success: res => {
-          console.warn('[云函数] [openapi] subscribeMessage.send 调用成功：', res)
-          wx.showModal({
-          title: '发送成功',
-          content: '请返回微信主界面查看',
-          showCancel: false,
-          })
-          wx.showToast({
-          title: '发送成功，请返回微信主界面查看',
-          })
-          this.setData({
-          subscribeMessageResult: JSON.stringify(res.result)
-          })
-      },
-      fail: err => {
-          wx.showToast({
-          icon: 'none',
-          title: '调用失败',
-          })
-          console.error('[云函数] [openapi] subscribeMessage.send 调用失败：', err)
-      }
+      // 获取发布任务最后一条信息进行推送
+      const query = new AV.Query(getApp().globalData.collectionMissionList);
+      query.equalTo("available", true);
+      query.find().then((taskList) => {
+        if (taskList.length > 0) {
+          let task = taskList[taskList.length - 1].attributes
+          taskName = task.title
+          creditReward = task.credit
+          taskDetail = task.desc
+          var message1 = {
+            accessToken:getApp().globalData.accessToken,
+            touser:openid_a,
+            taskName:taskName,
+            creditReward:creditReward,
+            taskDetail:taskDetail,
+            templateId:getApp().globalData.templateId
+          }
+          var message2 = {
+            accessToken:getApp().globalData.accessToken,
+            touser:openid_b,
+            taskName:taskName,
+            creditReward:creditReward,
+            taskDetail:taskDetail,
+            templateId:getApp().globalData.templateId
+          }
+          AV.Cloud.run("sendMessage", message1).then(
+            function (data) {
+              // 处理结果
+              console.log("成功send")
+            },
+            function (err) {
+              // 处理报错
+              console.log(err)
+            }
+          );
+          AV.Cloud.run("sendMessage", message2).then(
+            function (data) {
+              // 处理结果
+              console.log("成功send")
+            },
+            function (err) {
+              // 处理报错
+              console.log(err)
+            }
+          );
+        }
+      });
+      wx.showModal({
+      title: '发送成功',
+      content: '请返回微信主界面查看',
+      showCancel: false,
       })
-  },  
+      wx.showToast({
+      title: '发送成功，请返回微信主界面查看',
+      })
+      // this.setData({
+      // subscribeMessageResult: JSON.stringify(res.result)
+      // })
+      return 'send ok'
+    } catch (err) {
+      wx.showToast({
+        icon: 'none',
+        title: '调用失败',
+        })
+        console.error(' subscribeMessage.send 调用失败：', err)
+      return err
+    }
+  },
   //保存正在编辑的任务
   data: {
     title: '',
@@ -160,7 +195,7 @@ Page({
       return
     }else{
         // 声明 class
-        const Mission = AV.Object.extend("MissionList");
+        const Mission = AV.Object.extend(this.data.list);
         // 构建对象
         const mission = new Mission();
         // 为属性赋值
@@ -177,21 +212,13 @@ Page({
             // 成功保存之后，执行其他逻辑
             console.log(`保存成功。objectId：${mission.id}`);
             this.commitSuccess = true
+            this.sendSubscribeMessage();
           },
           (error) => {
             // 异常处理
             console.log(error);
           }
         );
-        // await wx.cloud.callFunction({name: 'addElement', data: this.data}).then(
-        //     () => {
-        //         wx.showToast({
-        //             title: '添加成功',
-        //             icon: 'success',
-        //             duration: 1000
-        //         })
-        //     }
-        // )
         setTimeout(function () {
           wx.navigateBack()
         }, 1000)

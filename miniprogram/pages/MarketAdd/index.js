@@ -1,3 +1,4 @@
+const AV = require("../../libs/av-core-min.js");
 Page({
   //保存正在编辑的商品
   data: {
@@ -114,15 +115,30 @@ Page({
       })
       return
     }else{
-        await wx.cloud.callFunction({name: 'addElement', data: this.data}).then(
-            () => {
-                wx.showToast({
-                    title: '添加成功',
-                    icon: 'success',
-                    duration: 1000
-                })
-            }
-        )
+        // 声明 class
+        const Market = AV.Object.extend(this.data.list);
+        // 构建对象
+        const market = new Market();
+        // 为属性赋值
+        market.set("openid",getApp().globalData.currentId);
+        market.set("date", new Date());
+        market.set("credit",this.data.credit);
+        market.set("title", this.data.title);
+        market.set("desc",this.data.desc);
+        market.set("available", true);
+        market.set("star",false);
+        // 将对象保存到云端
+        market.save().then(
+          (market) => {
+            // 成功保存之后，执行其他逻辑
+            console.log(`保存成功。objectId：${market.id}`);
+            this.commitSuccess = true
+          },
+          (error) => {
+            // 异常处理
+            console.log(error);
+          }
+        );
         setTimeout(function () {
             wx.navigateBack()
         }, 1000)

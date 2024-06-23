@@ -86,29 +86,6 @@ module.exports = {
 
 
 
-- [x] mission主页面展示
-- [x] mission detail展示
-- [x] mission添加
-- [x] mission完成
-- [x] mission星标
-- [x] mission删除
-
-- [x] market主页面展示
-- [x] market detail展示
-- [x] market添加
-- [x] market星标
-- [x] market删除
-
-- [ ] account主页面展示
-- [x] account detail展示
-- [ ] account添加
-- [ ] account星标
-- [ ] account删除
-
-
-
-
-
 
 
 

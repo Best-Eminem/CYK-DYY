@@ -34,24 +34,22 @@ Page({
     if (this.data._id.length > 0) {
       // 根据 _id 拿到任务
       const query = new AV.Query(this.data.list);
-      query.equalTo("id", this.data._id);
-      query.find().then((data) => {
+      query.get(this.data._id).then((data) => {
         // 将任务保存到本地，更新显示
-        let dataAtr = data[0].attributes
+        let dataAtr = data.attributes
         this.setData({
           mission: dataAtr,
           dateStr: this.getDate(dataAtr.date).toDateString(),
           timeStr: this.getDate(dataAtr.date).toTimeString(),
           creditPercent: (dataAtr.credit / getApp().globalData.maxCredit) * 100,
         })
-
         //确定任务关系并保存到本地
-        if(this.data.mission._openid === getApp().globalData._openidA){
+        if(this.data.mission.openid === getApp().globalData._openidA){
           this.setData({
             from: getApp().globalData.userA,
             to: getApp().globalData.userB,
           })
-        }else if(this.data.mission._openid === getApp().globalData._openidB){
+        }else if(this.data.mission.openid === getApp().globalData._openidB){
           this.setData({
             from: getApp().globalData.userB,
             to: getApp().globalData.userA,

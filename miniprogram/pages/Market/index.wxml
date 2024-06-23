@@ -37,8 +37,10 @@ style="background: white; height: 200px; width: 100%;">
             <view class="item-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
           </view>
           <view class="item-info_author">
-            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MissionA.png"/>
-            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MissionB.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidA}}" 
+            mode="widthFix" src="../../Images/MissionA.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidB}}" 
+            mode="widthFix" src="../../Images/MissionB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>
@@ -58,8 +60,10 @@ style="background: white; height: 200px; width: 100%;">
             <view class="item-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
           </view>
           <view class="item-info_author">
-              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MarketA.png"/>
-              <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MarketB.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidA}}" 
+            mode="widthFix" src="../../Images/MissionA.png"/>
+            <image style="position: absolute; width: 70%; bottom: 15%;left:50%" wx:if="{{item.openid === _openidB}}" 
+            mode="widthFix" src="../../Images/MissionB.png"/>
           </view>
           <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
         </view>

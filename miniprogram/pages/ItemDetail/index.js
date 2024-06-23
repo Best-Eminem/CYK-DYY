@@ -34,10 +34,9 @@ Page({
     if (this.data._id.length > 0) {
       // 根据 _id 拿到物品
       const query = new AV.Query(this.data.list);
-      query.equalTo("id", this.data._id);
-      query.find().then((data) => {
+      query.get(this.data._id).then((data) => {
         // 将物品保存到本地，更新显示
-        let dataAtr = data[0].attributes
+        let dataAtr = data.attributes
         this.setData({
           item: dataAtr,
           dateStr: this.getDate(dataAtr.date).toDateString(),
@@ -46,12 +45,12 @@ Page({
         })
 
         //确定物品关系并保存到本地
-        if(this.data.item._openid === getApp().globalData._openidA){
+        if(this.data.item.openid === getApp().globalData._openidA){
           this.setData({
             from: getApp().globalData.userB,
             to: getApp().globalData.userA,
           })
-        }else if(this.data.item._openid === getApp().globalData._openidB){
+        }else if(this.data.item.openid === getApp().globalData._openidB){
           this.setData({
             from: getApp().globalData.userA,
             to: getApp().globalData.userB,

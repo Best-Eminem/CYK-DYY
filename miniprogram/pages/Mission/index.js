@@ -22,7 +22,7 @@ Page({
   },
   //页面加载时运行
   async onShow(){
-    const query = new AV.Query("MissionList");
+    const query = new AV.Query(getApp().globalData.collectionMissionList);
     query.find().then((missionList) => {
       this.setData({allMissions: missionList})
       this.filterMission()
@@ -81,8 +81,10 @@ Page({
         }
       }
       for(let i in missionList){
-        let tt = missionList[i].date.toISOString().substring(0,10)
-        missionList[i].date = tt
+        if (typeof(missionList[i].date) != "string"){
+          let tt = missionList[i].date.toISOString().substring(0,10)
+          missionList[i].date = tt
+        }
         missionList[i]._id = this.data.allMissions[i].id
       }
     }else{
@@ -90,8 +92,10 @@ Page({
           missionList.push(this.data.allMissions[i].attributes)
       }
       for(let i in missionList){
-        let tt = missionList[i].date.toISOString().substring(0,10)
-        missionList[i].date = tt
+        if (typeof(missionList[i].date) != "string"){
+          let tt = missionList[i].date.toISOString().substring(0,10)
+          missionList[i].date = tt
+        }
         missionList[i]._id = this.data.allMissions[i].id
       }
     }
@@ -204,10 +208,17 @@ Page({
     todo.set(attr, value);
     todo.save();
   },
-  incrementCloudData(tableName, _id, attr, value){
-    const todo = AV.Object.createWithoutData(tableName, _id);
-    todo.increment(attr, value);
-    todo.save();
+  incrementCloudData(tableName, openid, attr, value){
+    //先查询openid对应的id
+    let _id = '';
+    const query = new AV.Query(tableName);
+    query.equalTo("openid", openid);
+    query.first().then((data) => {
+      _id = data.id
+      const todo = AV.Object.createWithoutData(tableName, _id);
+      todo.increment(attr, value);
+      todo.save();
+    });
   },
   deleteCloudData(tableName, _id){
     const todo = AV.Object.createWithoutData(tableName, _id);

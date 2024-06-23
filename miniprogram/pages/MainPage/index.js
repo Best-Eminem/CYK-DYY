@@ -1,8 +1,9 @@
 /* Main page of the app */
+const AV = require("../../libs/av-core-min.js");
 Page({
     //允许接收服务通知
     async requestSubscribeMessage() {
-        const templateId = 'D-6tEJ4Bu4Ra_wnRIhn07CwKss9p-BiGBLBshX8MqTI'//填入你自己想要的模板ID，记得复制粘贴全，我自己因为网页没开全，结果浪费半小时
+        const templateId = getApp().globalData.templateId//填入你自己想要的模板ID，记得复制粘贴全，我自己因为网页没开全，结果浪费半小时
         wx.requestSubscribeMessage({
         //tmplIds: [templateId,templateId2,templateId3],
         tmplIds: [templateId],
@@ -44,17 +45,19 @@ Page({
     },
 
     getCreditA(){
-        wx.cloud.callFunction({name: 'getElementByOpenId', data: {list: getApp().globalData.collectionUserList, _openid: getApp().globalData._openidA}})
-        .then(res => {
-          this.setData({creditA: res.result.data[0].credit})
-        })
+        const query = new AV.Query(getApp().globalData.collectionUserList);
+        query.equalTo("openid", getApp().globalData._openidA);
+        query.find().then((data) => {
+          this.setData({creditA: data[0].attributes.credit})
+        });
     },
     
     getCreditB(){
-        wx.cloud.callFunction({name: 'getElementByOpenId', data: {list: getApp().globalData.collectionUserList, _openid: getApp().globalData._openidB}})
-        .then(res => {
-            this.setData({creditB: res.result.data[0].credit})
-        })
+        const query = new AV.Query(getApp().globalData.collectionUserList);
+        query.equalTo("openid", getApp().globalData._openidB);
+        query.find().then((data) => {
+          this.setData({creditB: data[0].attributes.credit})
+        });
     },
 
     getDays(){

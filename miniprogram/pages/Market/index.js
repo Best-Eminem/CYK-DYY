@@ -109,8 +109,10 @@ Page({
         }
       }
       for(let i in itemList){
-        let tt = itemList[i].date.toISOString().substring(0,10)
-        itemList[i].date = tt
+        if (typeof(itemList[i].date) != "string"){
+          let tt = itemList[i].date.toISOString().substring(0,10)
+          itemList[i].date = tt
+        }
         itemList[i]._id = this.data.allItems[i].id
       }
     }else{
@@ -118,8 +120,10 @@ Page({
         itemList.push(this.data.allItems[i].attributes)
       }
       for(let i in itemList){
-        let tt = itemList[i].date.toISOString().substring(0,10)
-        itemList[i].date = tt
+        if (typeof(itemList[i].date) != "string"){
+          let tt = itemList[i].date.toISOString().substring(0,10)
+          itemList[i].date = tt
+        }
         itemList[i]._id = this.data.allItems[i].id
       }
     }
@@ -148,7 +152,6 @@ Page({
     //根据序号获得商品
     const itemIndex = element.currentTarget.dataset.index
     const item = isUpper === true ? this.data.unboughtItems[itemIndex] : this.data.boughtItems[itemIndex]
-
     const openid = getApp().globalData.currentId;
     //处理完成点击事件
     if (index === 0) {
@@ -162,7 +165,7 @@ Page({
             })
         }
         
-    }else if(item._openid === openid.result){
+    }else if(item.openid === openid){
         //处理星标按钮点击事件
         if (index === 1) {
             this.editCloudData(getApp().globalData.collectionMarketList, item._id, "star", !item.star);
@@ -204,7 +207,7 @@ Page({
     const item = this.data.unboughtItems[itemIndex]
     const openid = getApp().globalData.currentId;
     //如果购买自己的物品，显示提醒
-    if(item._openid === openid){
+    if(item.openid === openid){
       wx.showToast({
         title: '不能购买自己上架的物品',
         icon: 'error',
@@ -219,13 +222,6 @@ Page({
       })
     }else{
       //购买对方物品，奖金从自己账号扣除，并添加物品到自己的库里
-      // wx.cloud.callFunction({name: 'editCredit', data: {_openid: openid.result, value: -item.credit, list: getApp().globalData.collectionUserList}})
-      wx.cloud.callFunction({name: 'addElement', data: {
-          list: getApp().globalData.collectionStorageList,
-          credit: item.credit,
-          title: item.title,
-          desc: item.desc,
-      }})
       this.editCloudData(getApp().globalData.collectionMarketList, item._id, "available", false);
       this.incrementCloudData(getApp().globalData.collectionUserList, openid, "credit", -item.credit);
       // 声明 class
@@ -272,10 +268,17 @@ Page({
     todo.set(attr, value);
     todo.save();
   },
-  incrementCloudData(tableName, _id, attr, value){
-    const todo = AV.Object.createWithoutData(tableName, _id);
-    todo.increment(attr, value);
-    todo.save();
+  incrementCloudData(tableName, openid, attr, value){
+    //先查询openid对应的id
+    let _id = '';
+    const query = new AV.Query(tableName);
+    query.equalTo("openid", openid);
+    query.first().then((data) => {
+      _id = data.id
+      const todo = AV.Object.createWithoutData(tableName, _id);
+      todo.increment(attr, value);
+      todo.save();
+    });
   },
   deleteCloudData(tableName, _id){
     const todo = AV.Object.createWithoutData(tableName, _id);

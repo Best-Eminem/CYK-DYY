@@ -44,7 +44,6 @@ exports.main = async (event, context) => {
           value: taskDetail
         }
       },
-      
       templateId: event.templateId, // 模板ID
       miniprogramState: 'developer',
       page: 'pages/MainPage/index' // 这个是发送完服务通知用户点击消息后跳转的页面
