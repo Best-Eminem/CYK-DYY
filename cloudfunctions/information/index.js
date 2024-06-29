@@ -9,9 +9,9 @@ exports.main = async (event, context) => {
     let openid = cloud.getWXContext().OPENID;  // 获取用户的openid
     console.log(openid);
     let openid_a = 'o0VYL7U0sUPomHW88vXGLAYeFHc4';
-    let openid_b = 'o0VYL7X4QKnDnMCR4K0qFMQHgY8Q';
+    let openid_b = 'o0VYL7V894R4CZHIRwb3TeAjBFIA';
     // if (openid === 'o0VYL7U0sUPomHW88vXGLAYeFHc4') {//_openidA放到单引号里
-    //     openid = 'o0VYL7X4QKnDnMCR4K0qFMQHgY8Q';//_openidB放到单引号
+    //     openid = 'o0VYL7V894R4CZHIRwb3TeAjBFIA';//_openidB放到单引号
     // } else {
     //     openid = 'o0VYL7U0sUPomHW88vXGLAYeFHc4';//_openidA放到单引号里
     // }

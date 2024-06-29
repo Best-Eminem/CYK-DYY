@@ -12,7 +12,7 @@ App({
     this.globalData = {
       //记录使用者的openid
       _openidA: 'o0VYL7U0sUPomHW88vXGLAYeFHc4',
-      _openidB: 'o0VYL7X4QKnDnMCR4K0qFMQHgY8Q',
+      _openidB: 'o0VYL7V894R4CZHIRwb3TeAjBFIA',
       currentId:'',
       accessToken:"",
       templateId: "D-6tEJ4Bu4Ra_wnRIhn07CwKss9p-BiGBLBshX8MqTI",
