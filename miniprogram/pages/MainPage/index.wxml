@@ -37,6 +37,11 @@
         <view class="title">已经在一起<text class="nums">{{days}}</text>天啦</view>
       </view>
     </view>
+    <view class="form-cell">
+      <view class="slide">
+        <view class="title">宝贝生日快乐🎂，珂珂永远爱你❤</view>
+      </view>
+    </view>
   </view>
   <view bindtap="requestSubscribeMessage">接收服务通知</view>
   
